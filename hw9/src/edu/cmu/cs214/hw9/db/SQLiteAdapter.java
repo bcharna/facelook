@@ -19,7 +19,7 @@ public class SQLiteAdapter {
 		Statement stat;
 		try {
 			stat = conn.createStatement();
-			stat.executeUpdate("CREATE TABLE " + Constants.USERS_TABLE + " (id integer PRIMARY KEY, username varchar(50), password varchar(50), andrewID varchar(50), score integer, salt integer);");
+			stat.executeUpdate("CREATE TABLE " + Constants.USERS_TABLE + " (id integer PRIMARY KEY, email varchar(50), password varchar(50), salt integer);");
 		} catch (SQLException e) {
 		}
 		
