@@ -24,7 +24,7 @@ public class UserDAO extends SQLiteAdapter {
 		
 		try {
 			while(rs.next()){
-				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+				ret.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -39,7 +39,7 @@ public class UserDAO extends SQLiteAdapter {
 		
 		try {
 			while(rs.next()){
-				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+				ret.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -54,7 +54,7 @@ public class UserDAO extends SQLiteAdapter {
 		
 		try {
 			while(rs.next()){
-				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+				ret.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class UserDAO extends SQLiteAdapter {
 			
 			rs = ps.executeQuery();
 			while(rs.next()){
-				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+				ret.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class UserDAO extends SQLiteAdapter {
 			
 			rs = ps.executeQuery();
 			while(rs.next()){
-				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+				ret.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -130,7 +130,7 @@ public class UserDAO extends SQLiteAdapter {
 			
 			rs = ps.executeQuery();
 			while(rs.next()){
-				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+				ret.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -155,14 +155,14 @@ public class UserDAO extends SQLiteAdapter {
 	 * @param password User's password
 	 * @return true if User was created
 	 */
-	public boolean createUser(String email, String password){
+	public boolean createUser(String name, String email, String password){
 		ArrayList<User> lookup = findUser(email);
 		if(lookup.size() != 0){
 			return false;
 		}
 		
 		int userCount = allUsers().size();
-		int connectionNumber = userCount % Constants.SHARD_COUNT;
+		int connectionNumber = userCount % Constants.SHARD_COUNT;  // which DB to store in
 		Connection thisConnection = null; // setup var to reference proper conn
 		
 		switch (connectionNumber)
@@ -179,15 +179,16 @@ public class UserDAO extends SQLiteAdapter {
 		}
 		
 		
-		User u = new User(email, password, false);
+		User u = new User(name, email, password, false);
 		PreparedStatement ps;
-		String statement = "INSERT INTO " + Constants.USERS_TABLE + " (id, email, password, salt) VALUES (?, ?, ?, ?)";
+		String statement = "INSERT INTO " + Constants.USERS_TABLE + " (id, name, email, password, salt) VALUES (?, ?, ?, ?, ?)";
 		try{
 			ps = thisConnection.prepareStatement(statement);
 			ps.setInt(1, userCount + 1);
-			ps.setString(2, u.getEmail());
-			ps.setString(3, u.getPassword());
-			ps.setInt(4, u.getSalt());
+			ps.setString(2, u.getName());
+			ps.setString(3, u.getEmail());
+			ps.setString(4, u.getPassword());
+			ps.setInt(5, u.getSalt());
 			ps.executeUpdate();
 		} catch(SQLException e){
 			e.printStackTrace();

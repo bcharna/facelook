@@ -8,17 +8,20 @@ import java.util.Random;
 public class User {
 	private int id;
 	private int salt;
+	private String name;
 	private String email;
 	private String password;
 	
-	public User(int id, String email, String password, int salt){
+	public User(int id, String name, String email, String password, int salt){
 		this.id = id;
+		this.setName(name);
 		this.email = email;
 		this.password = password;
 		this.salt = salt;
 	}
 	
-	public User(String email, String password, boolean hashed){
+	public User(String name, String email, String password, boolean hashed){
+		this.setName(name);
 		this.email = email;
 		if(hashed){
 			this.password = password;
@@ -83,6 +86,14 @@ public class User {
 	private int newSalt() {
 		Random random = new Random();
 		return random.nextInt(8192)+1;  // salt cannot be zero
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
