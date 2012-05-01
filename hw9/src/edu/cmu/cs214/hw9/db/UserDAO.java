@@ -1,12 +1,14 @@
 package edu.cmu.cs214.hw9.db;
 
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import resources.Constants;
+import edu.cmu.cs214.hw9.resources.Constants;
+
 
 
 public class UserDAO extends SQLiteAdapter {
@@ -18,7 +20,7 @@ public class UserDAO extends SQLiteAdapter {
 	public ArrayList<User> allUsers(){
 		String statement = "SELECT * FROM " + Constants.USERS_TABLE;
 		ArrayList<User> ret = new ArrayList<User>();
-		ResultSet rs = select(statement);
+		ResultSet rs = select(statement, conn1);
 		
 		try {
 			while(rs.next()){
@@ -32,6 +34,38 @@ public class UserDAO extends SQLiteAdapter {
             } catch (SQLException e){
             }
         }
+
+		rs = select(statement, conn2);
+		
+		try {
+			while(rs.next()){
+				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try{
+                rs.close();
+            } catch (SQLException e){
+            }
+        }
+
+		rs = select(statement, conn3);
+		
+		try {
+			while(rs.next()){
+				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try{
+                rs.close();
+            } catch (SQLException e){
+            }
+        }
+
+		
 		
 		return ret;
 	}
@@ -39,9 +73,10 @@ public class UserDAO extends SQLiteAdapter {
 	public ArrayList<User> findUser(String email){
 		ArrayList<User> ret = new ArrayList<User>();
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
 			String statement = "SELECT * FROM " + Constants.USERS_TABLE + " WHERE email=?;";
-			PreparedStatement ps = conn.prepareStatement(statement);
+			ps = conn1.prepareStatement(statement);
 			ps.setString(1, email);
 			
 			rs = ps.executeQuery();
@@ -58,23 +93,101 @@ public class UserDAO extends SQLiteAdapter {
             } catch (SQLException e){
             }
         }
+		if (ret.size() != 0) // if it was found, dont keep looking
+			return ret;
+		
+		
+		
+		
+		try {
+			String statement = "SELECT * FROM " + Constants.USERS_TABLE + " WHERE email=?;";
+			ps = conn2.prepareStatement(statement);
+			ps.setString(1, email);
+			
+			rs = ps.executeQuery();
+			while(rs.next()){
+				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try{
+            	if(rs != null){
+            		rs.close();
+            	}
+            } catch (SQLException e){
+            }
+        }
+		if (ret.size() != 0) // if it was found, dont keep looking
+			return ret;
+		
+		
+		
+		try {
+			String statement = "SELECT * FROM " + Constants.USERS_TABLE + " WHERE email=?;";
+			ps = conn3.prepareStatement(statement);
+			ps.setString(1, email);
+			
+			rs = ps.executeQuery();
+			while(rs.next()){
+				ret.add(new User(rs.getInt("id"), rs.getString("email"), rs.getString("password"), rs.getInt("salt")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+            try{
+            	if(rs != null){
+            		rs.close();
+            	}
+            } catch (SQLException e){
+            }
+        }
+		if (ret.size() != 0) // if it was found, dont keep looking
+			return ret;
 		
 		return ret;
 	}
 	
+	/**
+	 * Creates a new user into system.  Row will automatically be sharded
+	 * into a DB to balance load.
+	 * @param email User's email
+	 * @param password User's password
+	 * @return true if User was created
+	 */
 	public boolean createUser(String email, String password){
 		ArrayList<User> lookup = findUser(email);
 		if(lookup.size() != 0){
 			return false;
 		}
+		
+		int userCount = allUsers().size();
+		int connectionNumber = userCount % Constants.SHARD_COUNT;
+		Connection thisConnection = null; // setup var to reference proper conn
+		
+		switch (connectionNumber)
+		{
+			case 0:
+				thisConnection = conn1;
+				break;
+			case 1:
+				thisConnection = conn2;
+				break;
+			case 2:
+				thisConnection = conn3;
+				break;
+		}
+		
+		
 		User u = new User(email, password, false);
 		PreparedStatement ps;
-		String statement = "INSERT INTO " + Constants.USERS_TABLE + " (email, password, salt) VALUES (?, ?, ?)";
+		String statement = "INSERT INTO " + Constants.USERS_TABLE + " (id, email, password, salt) VALUES (?, ?, ?, ?)";
 		try{
-			ps = conn.prepareStatement(statement);
-			ps.setString(1, u.getEmail());
-			ps.setString(2, u.getPassword());
-			ps.setInt(3, u.getSalt());
+			ps = thisConnection.prepareStatement(statement);
+			ps.setInt(1, userCount + 1);
+			ps.setString(2, u.getEmail());
+			ps.setString(3, u.getPassword());
+			ps.setInt(4, u.getSalt());
 			ps.executeUpdate();
 		} catch(SQLException e){
 			e.printStackTrace();

@@ -1,5 +1,5 @@
-package resources;
 
+package edu.cmu.cs214.hw9.resources;
 
 public class Constants {
 	public static final int SERVER_PORT = 15214;
@@ -12,5 +12,6 @@ public class Constants {
 	public static final String USERS_TABLE = "users";
 	
 	
+	public static final int SHARD_COUNT = 3;
 	public static final int TIMEOUT = 30000;
 }
