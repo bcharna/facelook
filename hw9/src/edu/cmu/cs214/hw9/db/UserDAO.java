@@ -75,7 +75,7 @@ public class UserDAO extends SQLiteAdapter {
 	 * @param password User's password
 	 * @return true if User was created
 	 */
-	public synchronized boolean createUser(String name, String email, String password){
+	public boolean createUser(String name, String email, String password){
 		
 		ArrayList<User> lookup = findUser(email);
 		if(lookup.size() != 0){
