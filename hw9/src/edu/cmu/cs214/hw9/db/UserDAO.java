@@ -1,7 +1,6 @@
 package edu.cmu.cs214.hw9.db;
 
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
