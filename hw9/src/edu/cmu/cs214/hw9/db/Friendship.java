@@ -1,5 +1,11 @@
 package edu.cmu.cs214.hw9.db;
 
+/**
+ * Friendship represents a link between two Users in the system that are
+ * 'friends', at least for now...
+ * @author bcharna
+ *
+ */
 public class Friendship {
 	private int id;
 	private String user1Email, user2Email;

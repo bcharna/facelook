@@ -1,10 +1,15 @@
 package edu.cmu.cs214.hw9.db;
 
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+/**
+ * User represents a person in real life who uses the Facelook system.
+ * Allows people to login to system with their own credentials.
+ * @author bcharna
+ *
+ */
 public class User {
 	private int id;
 	private int salt;

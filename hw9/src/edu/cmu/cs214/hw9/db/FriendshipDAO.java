@@ -39,18 +39,75 @@ public class FriendshipDAO extends SQLiteAdapter{
 		return ret;
 	}
 	
-	/* TODO implement below methods..
-	public boolean removeFriendship(String user1Email, String user2Email)
+
+	/**
+	 * See if User with user1Email is friends with User with
+	 * user2Email. Note that order of arguments does not
+	 * matter.  Therefore, areFriends(a,b) == areFriends(b,a)
+	 * @param user1Email email of User 1
+	 * @param user2Email email of User 2
+	 * @return true if Users are friends
+	 */
 	public boolean areFriends(String user1Email, String user2Email)
-	*/
+	{
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		String statement = "SELECT * FROM " + Constants.FRIENDSHIP_TABLE +
+				" WHERE user1Email=? AND user2Email=? OR user1Email=? AND user2Email=?";
+		try {
+			ps = conn.prepareStatement(statement);
+			ps.setString(1, user1Email);
+			ps.setString(2, user2Email);
+			ps.setString(3, user2Email);
+			ps.setString(4, user1Email);
+			rs = ps.executeQuery();
+			int size = rs.getFetchSize();
+			if (size > 0) return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+				
+	}
+	
+	
+
+	/**
+	 * Remove Friendship 'link' with user1Email on one side and 
+	 * user2Email on the other.  Note that order of arguments does not
+	 * matter.  Therefore, removeFriendship(a,b) == removeFriendship(b,a)
+	 * @param user1Email of friend 1
+	 * @param user2Email of friend 2
+	 */
+	public boolean removeFriendship(String user1Email, String user2Email)
+	{
+		Friendship f = new Friendship(user1Email, user2Email);
+		PreparedStatement ps;
+		String statement = "DELETE FROM " + Constants.FRIENDSHIP_TABLE +
+				" WHERE user1Email=? AND user2Email=? OR user1Email=? AND user2Email=?";
+		try{
+			ps = conn.prepareStatement(statement);
+			ps.setString(1, f.getUser1Email());
+			ps.setString(2, f.getUser2Email());
+			ps.setString(3, f.getUser2Email());
+			ps.setString(4, f.getUser1Email());
+			ps.executeUpdate();
+		} catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+
+	}
 	
 	
 	/**
-	 * Create a new Friendship 'link' with user1ID on one side and 
-	 * user2ID on the other.
-	 * @param user1ID id of friend 1
-	 * @param user2ID id of friend 2
-	 * @return true if Friendship was created
+	 * Create a new Friendship 'link' with user1Email on one side and 
+	 * user2Email on the other.
+	 * @param user1Email of friend 1
+	 * @param user2Email of friend 2
 	 */
 	public boolean createFriendship(String user1Email, String user2Email)
 	{

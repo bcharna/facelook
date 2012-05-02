@@ -53,10 +53,10 @@ public class StatusDAO extends SQLiteAdapter{
 		ArrayList<Status> ret = new ArrayList<Status>();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
+		String statement = "SELECT * FROM " + Constants.STATUS_TABLE + " WHERE email=?;";
 
 		try {
 
-			String statement = "SELECT * FROM " + Constants.STATUS_TABLE + " WHERE email=?;";
 			ps = conn.prepareStatement(statement);
 			ps.setString(1, email);
 			
@@ -82,9 +82,45 @@ public class StatusDAO extends SQLiteAdapter{
 
 	}
 	
-	/*
-	TODO add method below
-	public ArrayList<Status> notificationsOf(String email)
+	/**
+	 * Get all of the notifications belonging to User with email of
+	 * email argument
+	 * @param email get notifications of this User's email.
+	 * @return ArrayList of Statuses (representing notifications actually)
 	 */
+	public ArrayList<Status> notificationsOf(String email)
+	{
+		ArrayList<Status> ret = new ArrayList<Status>();
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		String statement = "SELECT * FROM " + Constants.STATUS_TABLE + " WHERE email=? AND notification=?;";
+
+		try {
+
+			ps = conn.prepareStatement(statement);
+			ps.setString(1, email);
+			ps.setBoolean(2, true);
+			
+			rs = ps.executeQuery();
+			while(rs.next()){
+				Status s = new Status(rs.getString("email"), rs.getString("text"), rs.getDate("date"), rs.getBoolean("notification"));
+				ret.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            try{
+            	if(rs != null){
+            		rs.close();
+            	}
+            } catch (SQLException e){
+            }
+        }
+		
+		return ret;
+
+	}
 	
 }

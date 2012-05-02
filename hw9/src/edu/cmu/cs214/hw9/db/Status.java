@@ -2,6 +2,14 @@ package edu.cmu.cs214.hw9.db;
 
 import java.util.Date;
 
+/**
+ * Status represents a status update or notification in Facelook.
+ * By setting notification to true, the Status object actually
+ * represents a notification, which is visible to subscribers as
+ * well as friends.
+ * @author bcharna
+ *
+ */
 public class Status {
 	private int id;
 	private String email, text;

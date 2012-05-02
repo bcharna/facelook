@@ -76,10 +76,12 @@ public class FriendRequestDAO extends SQLiteAdapter{
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 
+		String statement = "SELECT * FROM " + Constants.FRIEND_REQUEST_TABLE + " WHERE toEmail=?;";
+
+
 		try {
 			UserDAO userDAO = new UserDAO(url); // allow us to get access to User table
 
-			String statement = "SELECT * FROM " + Constants.FRIEND_REQUEST_TABLE + " WHERE toEmail=?;";
 			ps = conn.prepareStatement(statement);
 			ps.setString(1, email);
 			

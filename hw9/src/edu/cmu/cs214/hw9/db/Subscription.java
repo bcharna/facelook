@@ -1,6 +1,11 @@
 package edu.cmu.cs214.hw9.db;
 
-
+/**
+ * Subscription represents a User 'following' another User.  Subscribers
+ * of other Users can view the other User's Notifications only!
+ * @author bcharna
+ *
+ */
 public class Subscription {
 
 	private int id;
