@@ -12,6 +12,7 @@ public class Constants {
 	public static final String USERS_TABLE = "users";
 	public static final String FRIENDSHIP_TABLE = "friendships";
 	public static final String FRIEND_REQUEST_TABLE = "friend_requests";
+	public static final String STATUS_TABLE = "statuses";
 
 	
 	public static final int SHARD_COUNT = 3;
