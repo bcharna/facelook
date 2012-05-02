@@ -10,6 +10,7 @@ public class FriendRequest {
 	 * @param toEmail email address of User being sent request
 	 * @param fromEmail email address of User sending request
 	 */
+	
 	public FriendRequest(int id, String toEmail, String fromEmail) {
 		this.id = id;
 		this.toEmail = toEmail;
