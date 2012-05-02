@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import edu.cmu.cs214.hw9.resources.Constants;
 
 
-
 public class UserDAO extends SQLiteAdapter {
 
 	/**
@@ -39,8 +38,6 @@ public class UserDAO extends SQLiteAdapter {
             } catch (SQLException e){
             }
         }
-
-		
 		
 		return ret;
 	}
@@ -86,7 +83,6 @@ public class UserDAO extends SQLiteAdapter {
 			return false;
 		}
 		
-		
 		User u = new User(name, email, password, false);
 		PreparedStatement ps;
 		String statement = "INSERT INTO " + Constants.USER_TABLE + " (name, email, password, salt) VALUES (?, ?, ?, ?)";
@@ -104,27 +100,6 @@ public class UserDAO extends SQLiteAdapter {
 		
 		return true;
 	}
-	
-//	public boolean incScore(String username){
-//		ArrayList<User> lookup = findUser(username);
-//		User u = lookup.get(0);
-//		if(u == null){
-//			return false;
-//		}
-//		
-//		PreparedStatement ps;
-//		String statement = "UPDATE " + Constants.USERS_TABLE + " SET score=? WHERE username=?";
-//		try{
-//			ps = conn.prepareStatement(statement);
-//			ps.setInt(1, u.getScore() + 1);
-//			ps.setString(2, username);
-//			ps.executeUpdate();
-//		} catch(SQLException e){
-//			return false;
-//		}
-//		
-//		return true;
-//	}
-	
+		
 }
 
