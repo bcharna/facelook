@@ -5,25 +5,24 @@ public class Friendship {
 	private String user1Email, user2Email;
 	
 	/**
-	 * Create a new Friendship 'link' with user1ID on one side and 
-	 * user2ID on the other.
+	 * Create a new Friendship 'link' with user1Email on one side and 
+	 * user2Email on the other.
 	 * @param id 
-	 * @param user1ID
-	 * @param user2ID
+	 * @param user1Email of friend 1
+	 * @param user2Email of friend 2
 	 */
 	public Friendship(int id, String user1Email, String user2Email) {
 		this.id = id;
 		this.setUser1Email(user1Email);
 		this.setUser2Email(user2Email);
-
 	}
 	
 	
 	/**
-	 * Create a new Friendship 'link' with user1ID on one side and 
-	 * user2ID on the other.
-	 * @param user1ID id of friend 1
-	 * @param user2ID id of friend 2
+	 * Create a new Friendship 'link' with user1Email on one side and 
+	 * user2Email on the other.
+	 * @param user1Email id of friend 1
+	 * @param user2Email id of friend 2
 	 */
 	public Friendship(String user1Email, String user2Email) {
 		this.setUser1Email(user1Email);

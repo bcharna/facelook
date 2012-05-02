@@ -87,8 +87,6 @@ public class UserDAO extends SQLiteAdapter {
 		}
 		
 		
-		
-		
 		User u = new User(name, email, password, false);
 		PreparedStatement ps;
 		String statement = "INSERT INTO " + Constants.USERS_TABLE + " (name, email, password, salt) VALUES (?, ?, ?, ?)";

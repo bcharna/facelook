@@ -9,6 +9,7 @@ import edu.cmu.cs214.hw9.resources.Constants;
 
 public class SQLiteAdapter {
 	protected Connection conn;
+	protected String url;
 	
 	/**
 	 * Create a new adapter to access DB
@@ -17,7 +18,7 @@ public class SQLiteAdapter {
 	 */
 	public SQLiteAdapter(String url) throws Exception {
 		Class.forName(Constants.JDBC_NAME);
-		
+		this.url = url;
 		//conn = DriverManager.getConnection("jdbc:sqlite:15214.db");
 		conn = DriverManager.getConnection(url);
 	}

@@ -52,7 +52,7 @@ public class FriendshipDAO extends SQLiteAdapter{
 		// TODO add lookup here to see if link already exists
 		Friendship f = new Friendship(user1Email, user2Email);
 		PreparedStatement ps;
-		String statement = "INSERT INTO " + Constants.FRIENDSHIP_TABLE + " (user1ID, user2ID) VALUES (?, ?)";
+		String statement = "INSERT INTO " + Constants.FRIENDSHIP_TABLE + " (user1Email, user2Email) VALUES (?, ?)";
 		try{
 			ps = conn.prepareStatement(statement);
 			ps.setString(1, f.getUser1Email());
@@ -73,16 +73,46 @@ public class FriendshipDAO extends SQLiteAdapter{
 	 * @param email of User to find friends of.
 	 * @return ArrayList of Users
 	 */
-//	public ArrayList<User> friendsOf(String email)
-//	{
-//		/*
-//		 * notes:
-//		 * do not hash based off primary ID
-//		 * hash off email => split 0 to max int into
-//		 * n sections where n is amount of shards
-//		 * have hash fxn map equally into shards
-//		 */
-//	}
+	public ArrayList<User> friendsOf(String email)
+	{
+
+		ArrayList<User> ret = new ArrayList<User>();
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+
+		try {
+			UserDAO userDAO = new UserDAO(url); // allow us to get access to User table
+
+			String statement = "SELECT * FROM " + Constants.FRIENDSHIP_TABLE + " WHERE user1Email=? OR user2Email=?;";
+			ps = conn.prepareStatement(statement);
+			ps.setString(1, email);
+			ps.setString(2, email);
+			
+			rs = ps.executeQuery();
+			while(rs.next()){
+				User u = null;
+				if (rs.getString("userEmail1").equals(email)) // add other side of Friendship link to list
+					u = userDAO.findUser(rs.getString("userEmail2")).get(0);
+				else
+					u = userDAO.findUser(rs.getString("userEmail1")).get(0);
+
+				ret.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+            try{
+            	if(rs != null){
+            		rs.close();
+            	}
+            } catch (SQLException e){
+            }
+        }
+		
+		return ret;
+	}
 
 	
 }
