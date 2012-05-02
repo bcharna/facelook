@@ -20,16 +20,18 @@ public class StatusDAO extends SQLiteAdapter{
 	 * @param text the text with this Status
 	 * @param date date Status was created
 	 */
-	public boolean createStatus(String email, String text, Date date)
+	public boolean createStatus(String email, String text, Date date,
+			boolean notification)
 	{
-		Status s = new Status(email, text, date);
+		Status s = new Status(email, text, date, notification);
 		PreparedStatement ps;
-		String statement = "INSERT INTO " + Constants.STATUS_TABLE + " (email, text, date) VALUES (?, ?, ?)";
+		String statement = "INSERT INTO " + Constants.STATUS_TABLE + " (email, text, date, notification) VALUES (?, ?, ?, ?)";
 		try{
 			ps = conn.prepareStatement(statement);
 			ps.setString(1, s.getEmail());
 			ps.setString(2, s.getText());
 			ps.setDate(3, (java.sql.Date) s.getDate());
+			ps.setBoolean(4, s.isNotification());
 			ps.executeUpdate();
 		} catch(SQLException e){
 			e.printStackTrace();
@@ -60,7 +62,7 @@ public class StatusDAO extends SQLiteAdapter{
 			
 			rs = ps.executeQuery();
 			while(rs.next()){
-				Status s = new Status(rs.getString("email"), rs.getString("text"), rs.getDate("date"));
+				Status s = new Status(rs.getString("email"), rs.getString("text"), rs.getDate("date"), rs.getBoolean("notification"));
 				ret.add(s);
 			}
 		} catch (SQLException e) {
@@ -79,5 +81,10 @@ public class StatusDAO extends SQLiteAdapter{
 		return ret;
 
 	}
+	
+	/*
+	TODO add method below
+	public ArrayList<Status> notificationsOf(String email)
+	 */
 	
 }

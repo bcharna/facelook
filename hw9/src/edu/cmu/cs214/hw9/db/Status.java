@@ -6,6 +6,7 @@ public class Status {
 	private int id;
 	private String email, text;
 	private Date date;
+	private boolean notification;
 	
 	/**
 	 * Create a new status for User with email of email argument
@@ -13,8 +14,10 @@ public class Status {
 	 * @param email owner of this Status
 	 * @param text the text with this Status
 	 * @param date date Status was created
+	 * @param notification whether or not this status is a notification
 	 */
-	public Status(int id, String email, String text, Date date) {
+	public Status(int id, String email, String text,
+			Date date, boolean notification) {
 		this.setId(id);
 		this.setEmail(email);
 		this.setText(text);
@@ -26,8 +29,10 @@ public class Status {
 	 * @param email owner of this Status
 	 * @param text the text with this Status
 	 * @param date date Status was created
+	 * @param notification whether or not this status is a notification
 	 */
-	public Status(String email, String text, Date date) {
+	public Status(String email, String text,
+			Date date, boolean notification) {
 		this.setEmail(email);
 		this.setText(text);
 		this.setDate(date);
@@ -63,6 +68,14 @@ public class Status {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public boolean isNotification() {
+		return notification;
+	}
+
+	public void setNotification(boolean notification) {
+		this.notification = notification;
 	}
 	
 

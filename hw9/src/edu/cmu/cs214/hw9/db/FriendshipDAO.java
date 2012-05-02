@@ -39,6 +39,11 @@ public class FriendshipDAO extends SQLiteAdapter{
 		return ret;
 	}
 	
+	/* TODO implement below methods..
+	public boolean removeFriendship(String user1Email, String user2Email)
+	public boolean areFriends(String user1Email, String user2Email)
+	*/
+	
 	
 	/**
 	 * Create a new Friendship 'link' with user1ID on one side and 
