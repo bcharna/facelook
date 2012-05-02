@@ -10,6 +10,7 @@ public class Constants {
 	public static final String DB_CONNECTION = "jdbc:sqlite:db/test.db";
 	
 	public static final String USERS_TABLE = "users";
+	public static final String FRIENDSHIP_TABLE = "friendships";
 	
 	
 	public static final int SHARD_COUNT = 3;

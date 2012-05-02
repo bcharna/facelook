@@ -8,29 +8,26 @@ import edu.cmu.cs214.hw9.resources.Constants;
 
 
 public class SQLiteAdapter {
-	protected Connection conn1, conn2, conn3;
+	protected Connection conn;
 	
-	public SQLiteAdapter() throws Exception {
+	/**
+	 * Create a new adapter to access DB
+	 * @param url path to DB file
+	 * @throws Exception
+	 */
+	public SQLiteAdapter(String url) throws Exception {
 		Class.forName(Constants.JDBC_NAME);
 		
-		conn1 = DriverManager.getConnection("jdbc:sqlite:15214.db");
-		conn2 = DriverManager.getConnection("jdbc:sqlite:15214.db");
-		conn3 = DriverManager.getConnection("jdbc:sqlite:15214.db");
+		//conn = DriverManager.getConnection("jdbc:sqlite:15214.db");
+		conn = DriverManager.getConnection(url);
 	}
 	
 	public void createTables(){
-		Statement stat1;
-		Statement stat2;
-		Statement stat3;
+		Statement stat;
 		try {
-			stat1 = conn1.createStatement();
-			stat1.executeUpdate("CREATE TABLE " + Constants.USERS_TABLE + " (id integer PRIMARY KEY, email varchar(50), password varchar(50), salt integer);");
-
-			stat2 = conn2.createStatement();
-			stat2.executeUpdate("CREATE TABLE " + Constants.USERS_TABLE + " (id integer PRIMARY KEY, email varchar(50), password varchar(50), salt integer);");
-
-			stat3 = conn3.createStatement();
-			stat3.executeUpdate("CREATE TABLE " + Constants.USERS_TABLE + " (id integer PRIMARY KEY, email varchar(50), password varchar(50), salt integer);");
+			stat = conn.createStatement();
+			stat.executeUpdate("CREATE TABLE " + Constants.USERS_TABLE + " (id integer PRIMARY KEY, email varchar(50), password varchar(50), salt integer);");
+			// TODO Create more tables here!
 		} catch (SQLException e) {
 		}
 		

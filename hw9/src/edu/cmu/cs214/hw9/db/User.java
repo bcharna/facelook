@@ -12,6 +12,14 @@ public class User {
 	private String email;
 	private String password;
 	
+	/**
+	 * Create a new user with some details
+	 * @param id primary key of this row in DB
+	 * @param name name of User
+	 * @param email email of User
+	 * @param password password of User
+	 * @param salt salt of User
+	 */
 	public User(int id, String name, String email, String password, int salt){
 		this.id = id;
 		this.setName(name);
@@ -20,6 +28,13 @@ public class User {
 		this.salt = salt;
 	}
 	
+	/**
+	 * Create a new user with some details
+	 * @param name name of User
+	 * @param email email of User
+	 * @param password password of User
+	 * @param salt salt of User
+	 */
 	public User(String name, String email, String password, boolean hashed){
 		this.setName(name);
 		this.email = email;
