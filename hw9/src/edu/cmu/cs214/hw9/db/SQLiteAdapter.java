@@ -27,8 +27,21 @@ public class SQLiteAdapter {
 		Statement stat;
 		try {
 			stat = conn.createStatement();
-			stat.executeUpdate("CREATE TABLE " + Constants.USERS_TABLE + " (id integer PRIMARY KEY, email varchar(50), password varchar(50), salt integer);");
-			// TODO Create more tables here!
+			stat.executeUpdate("CREATE TABLE " + Constants.USER_TABLE +
+					" (id integer PRIMARY KEY, email varchar(50), password varchar(50), salt integer);");
+			stat = conn.createStatement();
+			stat.executeUpdate("CREATE TABLE " + Constants.FRIEND_REQUEST_TABLE +
+					" (id integer PRIMARY KEY, toEmail varchar(50), fromEmail varchar(50));");
+			stat = conn.createStatement();
+			stat.executeUpdate("CREATE TABLE " + Constants.FRIENDSHIP_TABLE +
+					" (id integer PRIMARY KEY, user1Email varchar(50), user2Email varchar(50));");
+			stat = conn.createStatement();
+			stat.executeUpdate("CREATE TABLE " + Constants.SUBSCRIPTION_TABLE +
+					" (id integer PRIMARY KEY, toEmail varchar(50), fromEmail varchar(50));");
+			stat = conn.createStatement();
+			stat.executeUpdate("CREATE TABLE " + Constants.STATUS_TABLE +
+					" (id integer PRIMARY KEY, email varchar(50), text varchar(255), date date, notification boolean);");
+
 		} catch (SQLException e) {
 		}
 		

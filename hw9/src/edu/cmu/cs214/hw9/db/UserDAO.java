@@ -23,7 +23,7 @@ public class UserDAO extends SQLiteAdapter {
 	}
 	
 	public ArrayList<User> allUsers(){
-		String statement = "SELECT * FROM " + Constants.USERS_TABLE;
+		String statement = "SELECT * FROM " + Constants.USER_TABLE;
 		ArrayList<User> ret = new ArrayList<User>();
 		ResultSet rs = select(statement, conn);
 		
@@ -50,7 +50,7 @@ public class UserDAO extends SQLiteAdapter {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		try {
-			String statement = "SELECT * FROM " + Constants.USERS_TABLE + " WHERE email=?;";
+			String statement = "SELECT * FROM " + Constants.USER_TABLE + " WHERE email=?;";
 			ps = conn.prepareStatement(statement);
 			ps.setString(1, email);
 			
@@ -89,7 +89,7 @@ public class UserDAO extends SQLiteAdapter {
 		
 		User u = new User(name, email, password, false);
 		PreparedStatement ps;
-		String statement = "INSERT INTO " + Constants.USERS_TABLE + " (name, email, password, salt) VALUES (?, ?, ?, ?)";
+		String statement = "INSERT INTO " + Constants.USER_TABLE + " (name, email, password, salt) VALUES (?, ?, ?, ?)";
 		try{
 			ps = conn.prepareStatement(statement);
 			ps.setString(1, u.getName());
