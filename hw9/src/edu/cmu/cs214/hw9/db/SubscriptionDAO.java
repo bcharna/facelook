@@ -85,7 +85,7 @@ public class SubscriptionDAO extends SQLiteAdapter{
 	 * @param fromEmail email address of User subscribing
 	 * @return true if Subscription was created
 	 */
-	public boolean removeFriendRequest(String toEmail, String fromEmail)
+	public boolean removeSubscription(String toEmail, String fromEmail)
 	{
 		Subscription s = new Subscription(toEmail, fromEmail);
 		PreparedStatement ps;
