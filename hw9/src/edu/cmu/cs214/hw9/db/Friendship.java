@@ -7,7 +7,7 @@ public class Friendship {
 	/**
 	 * Create a new Friendship 'link' with user1Email on one side and 
 	 * user2Email on the other.
-	 * @param id 
+	 * @param id row id
 	 * @param user1Email of friend 1
 	 * @param user2Email of friend 2
 	 */

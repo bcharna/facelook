@@ -64,8 +64,6 @@ public class FriendshipDAO extends SQLiteAdapter{
 		}
 		
 		return true;
-
-	
 	}
 	
 	/**
