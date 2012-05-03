@@ -2,6 +2,7 @@ package edu.cmu.cs214.hw9.db;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -16,7 +17,6 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
-	
 	/**
 	 * Create a new user with some details
 	 * @param id primary key of this row in DB
