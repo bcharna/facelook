@@ -9,6 +9,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -83,8 +84,8 @@ public class LoginPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO FILL THIS IN WITH CODE TO DEAL WITH LOGIN
-				
+				container.getController().setEmail(txtUsername.getText());
+				container.getController().getLoginController().login(txtUsername.getText(), txtPassword.getPassword());
 			}
 			
 		});

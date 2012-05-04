@@ -3,6 +3,7 @@ package edu.cmu.cs214.hw9.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -44,7 +45,7 @@ public class NewsFeedPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO FILL IN CODE TO MOVE TO USER'S OWN PROFILE
+				container.replace(new ProfilePanel("Kyle", "Brad", container));
 				
 			}
 			
@@ -59,15 +60,7 @@ public class NewsFeedPanel extends JPanel {
 		
 		
 		//==================================================/
-		btnFriends.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO FILL IN CODE TO MOVE TO USER'S FRIENDS LIST
-				
-			}
-			
-		});
+		btnFriends.addActionListener(container.getController());
 		//==================================================/
 		
 		
@@ -80,15 +73,7 @@ public class NewsFeedPanel extends JPanel {
 		
 		
 		//==================================================/
-		btnSubscriptions.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO FILL IN CODE TO MOVE TO USER'S SUBSCRIPTION LIST
-				
-			}
-			
-		});
+		btnSubscriptions.addActionListener(container.getController());
 		//==================================================/
 		
 		
@@ -110,7 +95,10 @@ public class NewsFeedPanel extends JPanel {
 		 * It is ok to generate this at the beginning and only refresh when coming back to this page. 
 		 * If there are less than 10 then leave the remainder of the grid blank.
 		 */
-		
+		StatusPost[] plist = container.getController().getNewsController().getNews();
+		if(plist != null)
+			for(int i = 0; i < plist.length; i++)
+				panel.add(plist[i]);
 		
 		
 		final JTextField txtExample = new JTextField();
@@ -144,9 +132,7 @@ public class NewsFeedPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO GO TO THE USER'S PROFILE THAT IS SEARCHED FOR IN txtExample
-				// JTextField
-				
+				JOptionPane.showMessageDialog(null, "User not found");
 			}
 			
 		});

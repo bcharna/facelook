@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import edu.cmu.cs214.hw9.controllers.KButton;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +55,11 @@ public class FriendListPanel extends JPanel {
 		 * link.addActionListener(new ActionListener(){ ... });
 		 * panel.add(link);
 		 */
-		
+		KButton[] plist = container.getController().getFriendController().getPList();
+		for(int i = 0; i < plist.length; i++){
+			plist[i].addActionListener(container.getController());
+			panel.add(plist[i]);
+		}
 		
 		
 		JLabel lblFriends = new JLabel("Friends");
@@ -77,19 +83,16 @@ public class FriendListPanel extends JPanel {
 		 * link.addActionListener(new ActionListener(){ ... });
 		 * panel_1.add(link);
 		 */
-		
+		KButton[] flist = container.getController().getFriendController().getFList();
+		for(int i = 0; i < flist.length; i++){
+			flist[i].addActionListener(container.getController());
+			panel_1.add(flist[i]);
+		}
 		
 		
 		JButton btnNewsFeed = new JButton("News Feed");
 		btnNewsFeed.setBounds(661, 49, 97, 25);
 		add(btnNewsFeed);
-		btnNewsFeed.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				container.replace(new NewsFeedPanel(name, container));
-			}
-			
-		});
+		btnNewsFeed.addActionListener(container.getController());
 	}
 }

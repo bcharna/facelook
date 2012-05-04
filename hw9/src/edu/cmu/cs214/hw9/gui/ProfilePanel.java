@@ -55,7 +55,10 @@ public class ProfilePanel extends JPanel {
 		 * It is ok to generate this at the beginning and only refresh when coming back to this page. 
 		 * If there are less than 10 then leave the remainder of the grid blank. These don't need to link back to same page.
 		 */
-		
+		StatusPost[] list = container.getController().getProfileController().getPosts();
+		if(list != null)
+			for(int i = 0; i < list.length; i++)
+				panel.add(list[i]);
 		
 		if(!username.equals(name)){//Only show these when it is not your own profile
 		JButton btnAddFriend = new JButton("Add/Remove Friend");
@@ -99,14 +102,7 @@ public class ProfilePanel extends JPanel {
 		JButton btnNewsFeed = new JButton("News Feed");
 		btnNewsFeed.setBounds(661, 49, 97, 25);
 		add(btnNewsFeed);
-		btnNewsFeed.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				container.replace(new NewsFeedPanel(username, container));
-			}
-			
-		});
+		btnNewsFeed.addActionListener(container.getController());
 		
 		
 		if(username.equals(name)){

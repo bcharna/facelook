@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import edu.cmu.cs214.hw9.controllers.KButton;
+
 public class SubscriptionListPanel extends JPanel {
 
 	/**
@@ -52,21 +54,17 @@ public class SubscriptionListPanel extends JPanel {
 		 * link.addActionListener(new ActionListener(){ ... });
 		 * panel.add(link);
 		 */
-		
-		
+		KButton[] list = container.getController().getSubscriptionController().getSubscriptions();
+		if(list != null)
+		for(int i = 0; i < list.length; i++){
+			list[i].addActionListener(container.getController());
+			panel.add(list[i]);
+		}
 		
 		JButton btnNewsFeed = new JButton("News Feed");
 		btnNewsFeed.setBounds(661, 49, 97, 25);
 		add(btnNewsFeed);
-		btnNewsFeed.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				container.replace(new NewsFeedPanel(name, container));
-			}
-
-			
-		});
+		btnNewsFeed.addActionListener(container.getController());
 	}
 
 }

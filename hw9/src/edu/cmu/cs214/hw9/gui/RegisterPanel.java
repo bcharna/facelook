@@ -9,6 +9,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -116,8 +117,16 @@ public class RegisterPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO FILL THIS IN WITH REGISTRATION CODE
-			} });
+				if(!txtPass1.getPassword().equals(txtPass2.getPassword())){
+					JOptionPane.showMessageDialog(null, "Passwords do not match!");
+				}
+				else{
+					container.getController().setEmail(txtEmail.getText());
+					container.getController().setUname(txtUsername.getText());
+					container.getController().getRegisterController().register(txtUsername.getText(),txtEmail.getText(), txtPass1.getPassword(), txtPass2.getPassword());
+				}
+			} 
+		});
 		//==============================================//
 		
 		
